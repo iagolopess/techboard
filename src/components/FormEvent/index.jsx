@@ -6,9 +6,23 @@ import { Label } from "../Label";
 import { EventButton } from '../EventButton';
 import { DropdownList } from '../DropDownList';
 
-export function FormEvent() {
+export function FormEvent({ themes, whenSubmit }) {
+
+  function onSubmitForm(formData){
+    const eventData = {
+      eventTitle: formData.get("eventName"),
+      cover: formData.get("coverEvent"),
+      date: new Date(formData.get("eventDate")),
+      theme: themes.find(function(item){
+        return item.id == formData.get("theme")
+      })
+    }
+
+    whenSubmit(eventData);
+  }
+
   return (
-    <form className='event-form'>
+    <form className='event-form' action={onSubmitForm}>
       <FormTitle>
         Preencha para criar um evento:
       </FormTitle>
@@ -21,8 +35,19 @@ export function FormEvent() {
             type="text"
             id='eventName'
             placeholder='Summer dev hits'
-            name='EventName'
+            name='eventName'
           />
+          <FormField>
+            <Label htmlFor="coverEvent">
+              Qual o endereço da imagem de capa?
+            </Label>
+            <InputField
+              type="text"
+              id="coverEvent"
+              placeholder="https//img.com"
+              name="coverEvent"
+            />
+          </FormField>
         </FormField>
         <FormField>
           <Label htmlFor="eventDate">
@@ -39,7 +64,7 @@ export function FormEvent() {
           <Label htmlFor="eventDate">
             Selecione um Tema
           </Label>
-         <DropdownList/>
+         <DropdownList id="theme" name="theme" items={themes}/>
         </FormField>
       </div>
       <div className='actions'>

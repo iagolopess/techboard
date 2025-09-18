@@ -8,3 +8,8 @@
     color: #FFF;
     padding: 0.5rem 1rem;
 }
+
+.dropdown-list option {
+    color: #4A4949;
+    text-transform: capitalize;
+}
